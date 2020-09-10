@@ -10,4 +10,4 @@ Methods:
 3) The Rover object will be created
 4) The user inputs values of the Rover and its instruction on where to land
 5) Rover processes the instructions
-6) Automatically repeat from step 3 with the help of while loop. Unless the user inputs to quit, Rover will keep getting instantiated
+6) Automatically repeat from step 3 with the help of while loop to simulate Rover coming back and another new Rover going out. Unless the user inputs to quit, Rover will keep getting instantiated
