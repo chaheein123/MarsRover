@@ -8,39 +8,47 @@ namespace MarsRover.Models
     private readonly int _x;
     private readonly int _y;
 
-    // Dependency Injection of Rovers into this class to enable interaction between them with less code
+    // Put dependency injection of 'Rovers' into this class to enable interaction between them with less code
     private IRover _rover;
 
-    // Constructor - the user must provide the value for the plateau's x and y value upon its instantiation
+    // Constructor
     public Plateau()
     {
       Console.Write("Enter max x-value for the plateau: ");
-      int x = Convert.ToInt32(Console.ReadLine());
+      _x = Convert.ToInt32(Console.ReadLine());
       Console.Write("Enter max y-value for the plateau: ");
-      int y = Convert.ToInt32(Console.ReadLine());
-      _x = x;
-      _y = y;
+      _y = Convert.ToInt32(Console.ReadLine());
       Console.WriteLine("This plateau has x-axis of {0}, and y-axis of {1}. ", _x, _y);
 
-
-      // Asks the user whether a rover should be sent on this plateau
-      Console.Write("Do you want to create a rover (press any other key) or quit (press q)?");
-      char isContinue = Convert.ToChar(Console.ReadLine());
-
-      // While loop is required, in case the user wants to send another rover when the one before comes back
-      while (Char.ToLower(isContinue) != 'q')
+      // While loop is required so that we can keep sending another rover when it comes back.
+      while (true)
       {
+        // Asks the user whether a rover should be sent on this plateau
+        Console.Write("Do you want to send a rover or no. Press 'q' to quit, or any other key to continue: ");
+        char isContinue = Convert.ToChar(Console.ReadLine());
+
+        // If the input is q, we break out of the loop and the program ends. Otherwise, keep going, and create another new rover
+        if (Char.ToLower(isContinue) == 'q')
+        {
+          Console.WriteLine("bye!");
+          break;
+        }
+
+        // Use these user inputs to instantiate another rover
         Console.Write("What is the x-value of this rover?  ");
         int roverX = Convert.ToInt32(Console.ReadLine());
         Console.Write("What is the y-value of this rover?  ");
         int roverY = Convert.ToInt32(Console.ReadLine());
         Console.Write("What is the direction (N, E, S or W) of this rover?  ");
         char direction = Convert.ToChar(Console.ReadLine());
-        // Automatically creates the first plateau as the plateau is instantiated
+
+        // roverX => current x-value of the rover
+        // roverY => current y-value of the rover
+        // direction => direction of the rover (N, E, S, or W)
+        // _x => max x value for the plateau
+        // _y => max y value for the plateau
         _rover = new Rover(roverX, roverY, direction, _x, _y);
       }
-      Console.WriteLine("bye!");
-      Environment.Exit(0);
     }
   }
 }
