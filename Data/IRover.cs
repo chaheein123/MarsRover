@@ -6,5 +6,9 @@ namespace MarsRover.Data
     public void TakeOrder(string str);
     public void AskForInstruction();
     public bool ValidateInstruction(string instruction);
+    public void TurnLeft();
+    public void TurnRight();
+    public void Move();
+
   }
 }
