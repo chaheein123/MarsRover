@@ -3,8 +3,8 @@ namespace MarsRover.Data
 {
   public interface IRover
   {
-    public void takeOrder(string str);
-
-
+    public void TakeOrder(string str);
+    public void AskForInstruction();
+    public bool ValidateInstruction(string instruction);
   }
 }

@@ -5,20 +5,21 @@ namespace MarsRover.Models
 {
   public class Plateau
   {
-    private readonly int _x;
-    private readonly int _y;
+    private readonly int _plateauX;
+    private readonly int _plateauY;
 
-    // Put dependency injection of 'Rovers' into this class to enable interaction between them with less code
+    // Dependency Injection of Rover into Plateau
     private IRover _rover;
 
     // Constructor
     public Plateau()
     {
-      Console.Write("Enter max x-value for the plateau: ");
-      _x = Convert.ToInt32(Console.ReadLine());
-      Console.Write("Enter max y-value for the plateau: ");
-      _y = Convert.ToInt32(Console.ReadLine());
-      Console.WriteLine("This plateau has x-axis of {0}, and y-axis of {1}. ", _x, _y);
+      // User needs to input the max x-axis value and y-axis value of the plateau before sending any rover
+      Console.Write("Enter max x-axis value for the plateau: ");
+      _plateauX = Convert.ToInt32(Console.ReadLine());
+      Console.Write("Enter max y-axis value for the plateau: ");
+      _plateauY = Convert.ToInt32(Console.ReadLine());
+      Console.WriteLine("This plateau has x-axis of {0}, and y-axis of {1}. ", _plateauX, _plateauY);
 
       // While loop is required so that we can keep sending another rover when it comes back.
       while (true)
@@ -34,20 +35,8 @@ namespace MarsRover.Models
           break;
         }
 
-        // Use these user inputs to instantiate another rover
-        Console.Write("What is the x-value of this rover?  ");
-        int roverX = Convert.ToInt32(Console.ReadLine());
-        Console.Write("What is the y-value of this rover?  ");
-        int roverY = Convert.ToInt32(Console.ReadLine());
-        Console.Write("What is the direction (N, E, S or W) of this rover?  ");
-        char direction = Convert.ToChar(Console.ReadLine());
-
-        // roverX => current x-value of the rover
-        // roverY => current y-value of the rover
-        // direction => direction of the rover (N, E, S, or W)
-        // _x => max x value for the plateau
-        // _y => max y value for the plateau
-        _rover = new Rover(roverX, roverY, direction, _x, _y);
+        // Create a new rover
+        _rover = new Rover(_plateauX, _plateauY);
       }
     }
   }
