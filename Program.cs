@@ -1,4 +1,5 @@
 ﻿using System;
+using MarsRover.Models;
 
 namespace MarsRover
 {
@@ -6,7 +7,8 @@ namespace MarsRover
   {
     static void Main(string[] args)
     {
-      Console.WriteLine("Hello World!");
+      Plateau plateau = new Plateau();
+
     }
   }
 }
