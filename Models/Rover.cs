@@ -8,10 +8,11 @@ namespace MarsRover
   {
     // _x and _y is the x and y values that the user input. These values should never change. Need these variables in case user gives bad instruction and needs to reset the rover's original x and y values
     private readonly int _x;
-    private readonly int _y;
     private int _projectedX;
+    private readonly int _y;
     private int _projectedY;
     private char _direction;
+    private char _projectedDirection;
 
     private readonly int _plateauX;
     private readonly int _plateauY;
@@ -45,6 +46,7 @@ namespace MarsRover
       Console.Write("What is the direction (N, E, S or W) of this rover?  ");
       _direction = Char.ToUpper(Convert.ToChar(Console.ReadLine()));
 
+
       // Once all of the variables needed are declared, we ask for instruction from the user to execute
       AskForInstruction();
     }
@@ -68,6 +70,7 @@ namespace MarsRover
       Console.WriteLine("The Rover is executing your order... Please be patient...");
       _projectedX = _x;
       _projectedY = _y;
+      _projectedDirection = _direction;
 
       foreach (var character in instruction)
       {
@@ -84,22 +87,23 @@ namespace MarsRover
           TurnRight();
         }
       }
-      Console.WriteLine("🚀🚀🚀 Congrats. Your rover landed on: {0} {1} {2}", _projectedX, _projectedY, _direction);
+      Console.WriteLine("🚀🚀🚀 Congrats. Your rover landed on: {0} {1} {2}. Next rover is getting ready...", _projectedX, _projectedY, _projectedDirection);
+      return;
     }
 
     public void TurnLeft()
     {
-      _direction = LeftDirectionIndex[_direction];
+      _projectedDirection = LeftDirectionIndex[_projectedDirection];
     }
 
     public void TurnRight()
     {
-      _direction = RightDirectionIndex[_direction];
+      _projectedDirection = RightDirectionIndex[_projectedDirection];
     }
 
     public void Move()
     {
-      if (_direction == 'N')
+      if (_projectedDirection == 'N')
       {
         if (++_projectedY > _plateauY)
         {
@@ -108,7 +112,7 @@ namespace MarsRover
         }
 
       }
-      else if (_direction == 'S')
+      else if (_projectedDirection == 'S')
       {
         if (--_projectedY < 0)
         {
@@ -116,7 +120,7 @@ namespace MarsRover
           AskForInstruction();
         }
       }
-      else if (_direction == 'W')
+      else if (_projectedDirection == 'W')
       {
         if (--_projectedX < 0)
         {
@@ -124,7 +128,7 @@ namespace MarsRover
           AskForInstruction();
         }
       }
-      else if (_direction == 'E')
+      else if (_projectedDirection == 'E')
       {
         if (++_projectedX > _plateauX)
         {

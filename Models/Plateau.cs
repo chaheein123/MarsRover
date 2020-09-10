@@ -25,7 +25,7 @@ namespace MarsRover.Models
       while (true)
       {
         // Asks the user whether a rover should be sent on this plateau
-        Console.Write("Do you want to send a rover or no. Press 'q' to quit, or any other key to continue: ");
+        Console.Write("Do you want to send a rover or no. Press 'q' to quit, or any other character to continue: ");
         char isContinue = Convert.ToChar(Console.ReadLine());
 
         // If the input is q, we break out of the loop and the program ends. Otherwise, keep going, and create another new rover
