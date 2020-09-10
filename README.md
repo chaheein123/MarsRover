@@ -12,4 +12,4 @@ Methods:
 5) Rover processes the instructions
 6) Automatically repeat from step 3 with the help of while loop to simulate Rover coming back and another new Rover going out. Unless the user inputs to quit, Rover will keep getting instantiated
 
-![Farmers Market Finder Demo](Desktop/example.gif)
+![Demo](/Users/heecha/Desktop/example.gif)
