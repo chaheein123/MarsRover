@@ -9,6 +9,6 @@ namespace MarsRover.Data
     public void TurnLeft();
     public void TurnRight();
     public void Move();
-
+    public void LocateRover();
   }
 }

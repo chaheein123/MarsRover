@@ -31,13 +31,13 @@ namespace MarsRover.Models
         // If the input is q, we break out of the loop and the program ends. Otherwise, keep going, and create another new rover
         if (Char.ToLower(isContinue) == 'q')
         {
-          Console.WriteLine("bye!");
           break;
         }
 
         // Create a new rover
         _rover = new Rover(_plateauX, _plateauY);
       }
+      Console.WriteLine("bye!");
     }
   }
 }

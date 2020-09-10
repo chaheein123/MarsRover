@@ -6,10 +6,10 @@ namespace MarsRover
 {
   public class Rover : IRover
   {
-    // _x and _y is the x and y values that the user input. These values should never change. Need these variables in case user gives bad instruction and needs to reset the rover's original x and y values
-    private readonly int _x;
+    // The projected values refer to what the value will be after each instruction. It will be reset to the original values whenever the user inputs invalid instruction 
+    private int _x;
     private int _projectedX;
-    private readonly int _y;
+    private int _y;
     private int _projectedY;
     private char _direction;
     private char _projectedDirection;
@@ -17,6 +17,7 @@ namespace MarsRover
     private readonly int _plateauX;
     private readonly int _plateauY;
 
+    // Dictionary to look up the direction to be changed when the Rover moves left
     private Dictionary<char, char> LeftDirectionIndex = new Dictionary<char, char>()
     {
       { 'N', 'W' },
@@ -25,6 +26,7 @@ namespace MarsRover
       { 'E', 'N' },
     };
 
+    // Dictionary to look up the direction to be changed when the Rover moves right
     private Dictionary<char, char> RightDirectionIndex = new Dictionary<char, char>()
     {
       { 'N', 'E' },
@@ -33,24 +35,43 @@ namespace MarsRover
       { 'E', 'S' },
     };
 
-    // Constructor - Initiate the Rover instance with plateauX and plateauY values. The user has to input the current x, y, and the direction of the rover everytime it gets created.
+    // Constructor
     public Rover(int plateauX, int plateauY)
     {
       _plateauX = plateauX;
       _plateauY = plateauY;
 
-      Console.Write("What is the x-value of this rover?  ");
-      _x = Convert.ToInt32(Console.ReadLine());
-      Console.Write("What is the y-value of this rover?  ");
-      _y = Convert.ToInt32(Console.ReadLine());
-      Console.Write("What is the direction (N, E, S or W) of this rover?  ");
-      _direction = Char.ToUpper(Convert.ToChar(Console.ReadLine()));
-
+      LocateRover();
 
       // Once all of the variables needed are declared, we ask for instruction from the user to execute
       AskForInstruction();
     }
 
+    // Intial location of the rover
+    public void LocateRover()
+    {
+      Console.Write("What is the x-value of this rover?  ");
+      _x = Convert.ToInt32(Console.ReadLine());
+      // The while loop makes sure when the user inputs the values for Rover's location, it is within the plauteau's limit bounds
+      while (_x > _plateauX)
+      {
+        Console.Write("Your x-value of the rover is out of the bound. Please re-enter x-axis value: ");
+        _x = Convert.ToInt32(Console.ReadLine());
+      }
+      
+      Console.Write("What is the y-value of this rover?  ");
+      _y = Convert.ToInt32(Console.ReadLine());
+      while (_y > _plateauY)
+      {
+        Console.Write("Your y-value of the rover is out of the bound. Please re-enter y-axis value: ");
+        _y = Convert.ToInt32(Console.ReadLine());
+      }
+
+      Console.Write("What is the direction (N, E, S or W) of this rover?  ");
+      _direction = Char.ToUpper(Convert.ToChar(Console.ReadLine()));
+    }
+
+    // Asks for rover instruction from the user
     public void AskForInstruction()
     {
       Console.Write("Your current rover is at x: {0}, y: {1}, and it is facing {2}. What is your instruction? ", _x, _y, _direction);
@@ -88,7 +109,6 @@ namespace MarsRover
         }
       }
       Console.WriteLine("🚀🚀🚀 Congrats. Your rover landed on: {0} {1} {2}. Next rover is getting ready...", _projectedX, _projectedY, _projectedDirection);
-      return;
     }
 
     public void TurnLeft()
@@ -142,6 +162,7 @@ namespace MarsRover
     public bool ValidateInstruction(string instruction)
     {
       HashSet<char> orderSet = new HashSet<char> { 'L', 'M', 'R'};
+
       foreach (var character in instruction)
       {
         if (!orderSet.Contains(Char.ToUpper(character))) return false;
