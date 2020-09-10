@@ -6,12 +6,32 @@ namespace MarsRover
 {
   public class Rover : IRover
   {
-    private int _x;
-    private int _y;
+    // _x and _y is the x and y values that the user input. These values should never change. Need these variables in case user gives bad instruction and needs to reset the rover's original x and y values
+    private readonly int _x;
+    private readonly int _y;
+    private int _projectedX;
+    private int _projectedY;
     private char _direction;
+
     private readonly int _plateauX;
     private readonly int _plateauY;
-    
+
+    private Dictionary<char, char> LeftDirectionIndex = new Dictionary<char, char>()
+    {
+      { 'N', 'W' },
+      { 'S', 'E' },
+      { 'W', 'S' },
+      { 'E', 'N' },
+    };
+
+    private Dictionary<char, char> RightDirectionIndex = new Dictionary<char, char>()
+    {
+      { 'N', 'E' },
+      { 'S', 'W' },
+      { 'W', 'N' },
+      { 'E', 'S' },
+    };
+
     // Constructor - Initiate the Rover instance with plateauX and plateauY values. The user has to input the current x, y, and the direction of the rover everytime it gets created.
     public Rover(int plateauX, int plateauY)
     {
@@ -23,7 +43,7 @@ namespace MarsRover
       Console.Write("What is the y-value of this rover?  ");
       _y = Convert.ToInt32(Console.ReadLine());
       Console.Write("What is the direction (N, E, S or W) of this rover?  ");
-      _direction = Convert.ToChar(Console.ReadLine());
+      _direction = Char.ToUpper(Convert.ToChar(Console.ReadLine()));
 
       // Once all of the variables needed are declared, we ask for instruction from the user to execute
       AskForInstruction();
@@ -42,19 +62,76 @@ namespace MarsRover
       else TakeOrder(instruction);
     }
 
-
+    // This method processes the order in string
     public void TakeOrder(string instruction)
     {
-      Console.WriteLine("🚀🚀🚀 The Rover is executing your order... Please be patient");
-
-
-
+      Console.WriteLine("The Rover is executing your order... Please be patient...");
+      _projectedX = _x;
+      _projectedY = _y;
 
       foreach (var character in instruction)
       {
+        if (Char.ToUpper(character) == 'M')
+        {
+          Move();
+        }
+        else if (Char.ToUpper(character) == 'L')
+        {
+          TurnLeft();
+        }
+        else if (Char.ToUpper(character) == 'R')
+        {
+          TurnRight();
+        }
+      }
+      Console.WriteLine("🚀🚀🚀 Congrats. Your rover landed on: {0} {1} {2}", _projectedX, _projectedY, _direction);
+    }
+
+    public void TurnLeft()
+    {
+      _direction = LeftDirectionIndex[_direction];
+    }
+
+    public void TurnRight()
+    {
+      _direction = RightDirectionIndex[_direction];
+    }
+
+    public void Move()
+    {
+      if (_direction == 'N')
+      {
+        if (++_projectedY > _plateauY)
+        {
+          Console.WriteLine("WARNING: Your instruction will let the rover fly out of the plateau in the NORTH direction. Please give instruction that will keep the rovers within range. Re-enter. ");
+          AskForInstruction();
+        }
 
       }
-
+      else if (_direction == 'S')
+      {
+        if (--_projectedY < 0)
+        {
+          Console.WriteLine("WARNING: Your instruction will let the rover fly out of the plateau in the SOUTH direction. Please give instruction that will keep the rovers withinrange. Re-enter. ");
+          AskForInstruction();
+        }
+      }
+      else if (_direction == 'W')
+      {
+        if (--_projectedX < 0)
+        {
+          Console.WriteLine("WARNING: Your instruction will let the rover fly out of the plateau in the WEST direction. Please give instruction that will keep the rovers within range. Re-enter. ");
+          AskForInstruction();
+        }
+      }
+      else if (_direction == 'E')
+      {
+        if (++_projectedX > _plateauX)
+        {
+          Console.WriteLine("WARNING: Your instruction will let the rover fly out of the plateau in the EAST direction. Please give instruction that will keep the rovers within range. Re-enter. ");
+          AskForInstruction();
+        }
+      }
     }
 
     // Makes sure that the instruction passed in the takeOrder argument is valid, and does not contain any other characters, except L, M, and R.
@@ -67,10 +144,5 @@ namespace MarsRover
       }
       return true;
     }
-
-
-
-    
-
   }
 }

@@ -15,9 +15,9 @@ namespace MarsRover.Models
     public Plateau()
     {
       // User needs to input the max x-axis value and y-axis value of the plateau before sending any rover
-      Console.Write("Enter max x-axis value for the plateau: ");
+      Console.Write("Enter max x-axis value (positive integer) for the plateau: ");
       _plateauX = Convert.ToInt32(Console.ReadLine());
-      Console.Write("Enter max y-axis value for the plateau: ");
+      Console.Write("Enter max y-axis value (positive integer) for the plateau: ");
       _plateauY = Convert.ToInt32(Console.ReadLine());
       Console.WriteLine("This plateau has x-axis of {0}, and y-axis of {1}. ", _plateauX, _plateauY);
 
