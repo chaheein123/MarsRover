@@ -4,7 +4,6 @@ Directions
 1) Clone by running: git clone https://github.com/chaheein123/MarsRover.git
 2) Open the MarsRover.sln file
 3) Start or run the application 
-![Demo](https://ianimagedata.s3.amazonaws.com/example.gif)
 
 Methods:
 1) Created 2 classes (Plateau, Rover)
