@@ -58,7 +58,7 @@ namespace MarsRover
         Console.Write("Your x-value of the rover is out of the bound. Please re-enter x-axis value: ");
         _x = Convert.ToInt32(Console.ReadLine());
       }
-      
+
       Console.Write("What is the y-value of this rover?  ");
       _y = Convert.ToInt32(Console.ReadLine());
       while (_y > _plateauY)
@@ -74,14 +74,18 @@ namespace MarsRover
     // Asks for rover instruction from the user
     public void AskForInstruction()
     {
+      _projectedX = _x;
+      _projectedY = _y;
+      _projectedDirection = _direction;
       Console.Write("Your current rover is at x: {0}, y: {1}, and it is facing {2}. What is your instruction? ", _x, _y, _direction);
       string instruction = Console.ReadLine();
-      if (!ValidateInstruction(instruction)) {
+      if (!ValidateInstruction(instruction))
+      {
         Console.WriteLine("WARNING: The order only takes L, R, or M characters. i.e: LRMRRMLRMLRM. Enter again");
 
         // Keeps asking for instruction until the instruction is valid, which means it only contains letters, L, R or M.
         AskForInstruction();
-      } 
+      }
       else TakeOrder(instruction);
     }
 
@@ -89,15 +93,17 @@ namespace MarsRover
     public void TakeOrder(string instruction)
     {
       Console.WriteLine("The Rover is executing your order... Please be patient...");
-      _projectedX = _x;
-      _projectedY = _y;
-      _projectedDirection = _direction;
 
       foreach (var character in instruction)
       {
         if (Char.ToUpper(character) == 'M')
         {
-          Move();
+          // if the rover is out of bounds, Move() will return false. In that case, ask for instruction again
+          if (!Move())
+          {
+            AskForInstruction();
+            return;
+          }
         }
         else if (Char.ToUpper(character) == 'L')
         {
@@ -121,14 +127,14 @@ namespace MarsRover
       _projectedDirection = RightDirectionIndex[_projectedDirection];
     }
 
-    public void Move()
+    public bool Move()
     {
       if (_projectedDirection == 'N')
       {
         if (++_projectedY > _plateauY)
         {
           Console.WriteLine("WARNING: Your instruction will let the rover fly out of the plateau in the NORTH direction. Please give instruction that will keep the rovers within range. Re-enter. ");
-          AskForInstruction();
+          return false;
         }
 
       }
@@ -137,7 +143,7 @@ namespace MarsRover
         if (--_projectedY < 0)
         {
           Console.WriteLine("WARNING: Your instruction will let the rover fly out of the plateau in the SOUTH direction. Please give instruction that will keep the rovers withinrange. Re-enter. ");
-          AskForInstruction();
+          return false;
         }
       }
       else if (_projectedDirection == 'W')
@@ -145,7 +151,7 @@ namespace MarsRover
         if (--_projectedX < 0)
         {
           Console.WriteLine("WARNING: Your instruction will let the rover fly out of the plateau in the WEST direction. Please give instruction that will keep the rovers within range. Re-enter. ");
-          AskForInstruction();
+          return false;
         }
       }
       else if (_projectedDirection == 'E')
@@ -153,15 +159,16 @@ namespace MarsRover
         if (++_projectedX > _plateauX)
         {
           Console.WriteLine("WARNING: Your instruction will let the rover fly out of the plateau in the EAST direction. Please give instruction that will keep the rovers within range. Re-enter. ");
-          AskForInstruction();
+          return false;
         }
       }
+      return true;
     }
 
     // Makes sure that the instruction passed in the takeOrder argument is valid, and does not contain any other characters, except L, M, and R.
     public bool ValidateInstruction(string instruction)
     {
-      HashSet<char> orderSet = new HashSet<char> { 'L', 'M', 'R'};
+      HashSet<char> orderSet = new HashSet<char> { 'L', 'M', 'R' };
 
       foreach (var character in instruction)
       {

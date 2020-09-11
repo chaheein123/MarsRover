@@ -8,7 +8,7 @@ namespace MarsRover.Data
     public bool ValidateInstruction(string instruction);
     public void TurnLeft();
     public void TurnRight();
-    public void Move();
+    public bool Move();
     public void LocateRover();
   }
 }
