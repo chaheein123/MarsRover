@@ -101,6 +101,7 @@ namespace MarsRover
           // if the rover is out of bounds, Move() will return false. In that case, ask for instruction again
           if (!Move())
           {
+            Console.WriteLine("WARNING: Your instruction will let the rover fly out of the plateau in the {0} direction.Please give instruction that will keep the rovers within range.Re - enter. ", _projectedDirection);
             AskForInstruction();
             return;
           }
@@ -133,7 +134,6 @@ namespace MarsRover
       {
         if (++_projectedY > _plateauY)
         {
-          Console.WriteLine("WARNING: Your instruction will let the rover fly out of the plateau in the NORTH direction. Please give instruction that will keep the rovers within range. Re-enter. ");
           return false;
         }
 
@@ -142,7 +142,6 @@ namespace MarsRover
       {
         if (--_projectedY < 0)
         {
-          Console.WriteLine("WARNING: Your instruction will let the rover fly out of the plateau in the SOUTH direction. Please give instruction that will keep the rovers withinrange. Re-enter. ");
           return false;
         }
       }
@@ -150,7 +149,6 @@ namespace MarsRover
       {
         if (--_projectedX < 0)
         {
-          Console.WriteLine("WARNING: Your instruction will let the rover fly out of the plateau in the WEST direction. Please give instruction that will keep the rovers within range. Re-enter. ");
           return false;
         }
       }
@@ -158,7 +156,6 @@ namespace MarsRover
       {
         if (++_projectedX > _plateauX)
         {
-          Console.WriteLine("WARNING: Your instruction will let the rover fly out of the plateau in the EAST direction. Please give instruction that will keep the rovers within range. Re-enter. ");
           return false;
         }
       }
